@@ -1,6 +1,6 @@
 # rubocop-sorted_methods_by_call_docs docs
 
-![Alt](https://repobeats.axiom.co/api/embed/a929f5da1837bee2424d8d87a8026c0e3364516e.svg "Repobeats analytics image")
+![Alt](https://repobeats.axiom.co/api/embed/8478bd11f10b3922b60b8cb0a249d8f244381314.svg "Repobeats analytics image")
 
 ## Documentation content
 
