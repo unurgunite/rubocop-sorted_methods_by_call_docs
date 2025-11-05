@@ -97,6 +97,8 @@
 </li><li>
 <p><a href="#contributing">Contributing</a></p>
 </li><li>
+<p><a href="#documentation">Documentation</a></p>
+</li><li>
 <p><a href="#license">License</a></p>
 </li><li>
 <p><a href="#code-of-conduct">Code of Conduct</a></p>
@@ -162,8 +164,7 @@ SortedMethodsByCall/Waterfall:
 
 <h3 id="label-Good+Code+-28waterfall+order-29">Good Code (waterfall order)</h3>
 
-<pre class="code ruby"><code class="ruby">
-<span class='kw'>class</span> <span class='const'>Service</span>
+<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'>Service</span>
   <span class='kw'>def</span> <span class='id identifier rubyid_call'>call</span>
     <span class='id identifier rubyid_do_smth'>do_smth</span>
   <span class='kw'>end</span>
@@ -182,8 +183,7 @@ SortedMethodsByCall/Waterfall:
 
 <h3 id="label-Bad+Code+-28violates+waterfall+order-29">Bad Code (violates waterfall order)</h3>
 
-<pre class="code ruby"><code class="ruby">
-<span class='kw'>class</span> <span class='const'>Service</span>
+<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'>Service</span>
   <span class='kw'>def</span> <span class='id identifier rubyid_call'>call</span>
     <span class='id identifier rubyid_do_smth'>do_smth</span>
   <span class='kw'>end</span>
@@ -209,8 +209,7 @@ SortedMethodsByCall/Waterfall:
 
 <p>This will reorder the methods while preserving comments and visibility modifiers:</p>
 
-<pre class="code ruby"><code class="ruby">
-<span class='kw'>class</span> <span class='const'>Service</span>
+<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'>Service</span>
   <span class='kw'>def</span> <span class='id identifier rubyid_call'>call</span>
     <span class='id identifier rubyid_do_smth'>do_smth</span>
   <span class='kw'>end</span>
@@ -298,6 +297,10 @@ bundle exec rubocop --config .rubocop.test.yml lib/ -A
 
 <p>Please ensure your code passes all tests and follows the existing style.</p>
 
+<h2 id="label-Documentation">Documentation</h2>
+
+<p>Code is covered with YARD docs, you can access online docs at <a href="https://unurgunite.github.io/rubocop-sorted_methods_by_call_docs">unurgunite.github.io/rubocop-sorted_methods_by_call_docs</a>/</p>
+
 <h2 id="label-License">License</h2>
 
 <p>The gem is available as open source under the terms of the <a href="https://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause License</a>.</p>
@@ -313,7 +316,7 @@ bundle exec rubocop --config .rubocop.test.yml lib/ -A
 </div></div>
 
       <div id="footer">
-  Generated on Thu Nov  6 01:34:54 2025 by
+  Generated on Thu Nov  6 01:45:14 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.28 (ruby-3.4.7).
 </div>
