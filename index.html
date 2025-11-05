@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  File: README
+  
+    &mdash; Documentation by YARD 0.9.28
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "README";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: README</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><div id='filecontents'>
+<h1 id="label-RuboCop-3A-3ASortedMethodsByCall">RuboCop::SortedMethodsByCall</h1>
+
+<p><img src="https://repobeats.axiom.co/api/embed/7926fec94bffd7fcaa69700fb9464ed96cf69083.svg" alt="Repobeats"> <a href="https://github.com/unurgunite/rubocop-sorted_methods_by_call/actions"><img src="https://github.com/unurgunite/rubocop-sorted_methods_by_call/actions/workflows/ci.yml/badge.svg" alt="CI"></a> <a href="https://rubygems.org/gems/rubocop-sorted_methods_by_call"><img src="https://badge.fury.io/rb/rubocop-sorted_methods_by_call.svg" alt="Gem Version"></a></p>
+<ul><li>
+<p><a href="#rubocopsortedmethodsbycall">RuboCop::SortedMethodsByCall</a></p>
+<ul><li>
+<p><a href="#features">Features</a></p>
+</li><li>
+<p><a href="#installation">Installation</a></p>
+</li><li>
+<p><a href="#configuration">Configuration</a></p>
+<ul><li>
+<p><a href="#basic-setup">Basic Setup</a></p>
+</li><li>
+<p><a href="#configuration-options">Configuration Options</a></p>
+</li></ul>
+</li><li>
+<p><a href="#usage-examples">Usage Examples</a></p>
+<ul><li>
+<p><a href="#good-code-waterfall-order">Good Code (waterfall order)</a></p>
+</li><li>
+<p><a href="#bad-code-violates-waterfall-order">Bad Code (violates waterfall order)</a></p>
+</li><li>
+<p><a href="#autocorrection">Autocorrection</a></p>
+</li></ul>
+</li><li>
+<p><a href="#testing">Testing</a></p>
+</li><li>
+<p><a href="#development">Development</a></p>
+<ul><li>
+<p><a href="#available-commands">Available Commands</a></p>
+</li><li>
+<p><a href="#release-process">Release Process</a></p>
+</li></ul>
+</li><li>
+<p><a href="#requirements">Requirements</a></p>
+</li><li>
+<p><a href="#contributing">Contributing</a></p>
+</li><li>
+<p><a href="#license">License</a></p>
+</li><li>
+<p><a href="#code-of-conduct">Code of Conduct</a></p>
+</li></ul>
+</li></ul>
+
+<p><strong>Enforces “waterfall” method ordering</strong>: define methods <em>after</em> any method that calls them within the same scope.</p>
+
+<h2 id="label-Features">Features</h2>
+<ul><li>
+<p><strong>Waterfall ordering enforcement</strong>: Caller methods must be defined before their callees</p>
+</li><li>
+<p><strong>Smart visibility handling</strong>: Respects <code>private</code>/<code>protected</code>/<code>public</code> sections</p>
+</li><li>
+<p><strong>Safe mutual recursion</strong>: Handles recursive method calls gracefully</p>
+</li><li>
+<p><strong>Autocorrection support</strong>: Automatically reorders methods (opt-in with <code>-A</code>)</p>
+</li><li>
+<p><strong>Full RuboCop integration</strong>: Works seamlessly with modern RuboCop plugin system</p>
+</li><li>
+<p><strong>Comprehensive scope support</strong>: Classes, modules, singleton classes, and top-level</p>
+</li></ul>
+
+<h2 id="label-Installation">Installation</h2>
+
+<p>Add this line to your application’s Gemfile:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_gem'>gem</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>rubocop-sorted_methods_by_call</span><span class='tstring_end'>&#39;</span></span>
+</code></pre>
+
+<p>And then execute:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_bundle'>bundle</span> <span class='id identifier rubyid_install'>install</span>
+</code></pre>
+
+<p>Or install it yourself:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_gem'>gem</span> <span class='id identifier rubyid_install'>install</span> <span class='id identifier rubyid_rubocop'>rubocop</span><span class='op'>-</span><span class='id identifier rubyid_sorted_methods_by_call'>sorted_methods_by_call</span>
+</code></pre>
+
+<h2 id="label-Configuration">Configuration</h2>
+
+<h3 id="label-Basic+Setup">Basic Setup</h3>
+
+<p>Add to your <code>.rubocop.yml</code>:</p>
+
+<pre class="code ruby"><code class="ruby">plugins:
+  - rubocop-sorted_methods_by_call
+
+SortedMethodsByCall/Waterfall:
+  Enabled: true
+</code></pre>
+
+<h3 id="label-Configuration+Options">Configuration Options</h3>
+
+<pre class="code ruby"><code class="ruby">SortedMethodsByCall/Waterfall:
+  Enabled: true
+  SafeAutoCorrect: false          # Autocorrection requires -A flag
+  AllowedRecursion: true          # Allow mutual recursion (default: true)
+</code></pre>
+
+<h2 id="label-Usage+Examples">Usage Examples</h2>
+
+<h3 id="label-Good+Code+-28waterfall+order-29">Good Code (waterfall order)</h3>
+
+<pre class="code ruby"><code class="ruby">
+<span class='kw'>class</span> <span class='const'>Service</span>
+  <span class='kw'>def</span> <span class='id identifier rubyid_call'>call</span>
+    <span class='id identifier rubyid_do_smth'>do_smth</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_private'>private</span>
+
+  <span class='kw'>def</span> <span class='id identifier rubyid_do_smth'>do_smth</span>
+    <span class='id identifier rubyid_well'>well</span>
+  <span class='kw'>end</span>
+
+  <span class='kw'>def</span> <span class='id identifier rubyid_well'>well</span>
+    <span class='int'>123</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<h3 id="label-Bad+Code+-28violates+waterfall+order-29">Bad Code (violates waterfall order)</h3>
+
+<pre class="code ruby"><code class="ruby">
+<span class='kw'>class</span> <span class='const'>Service</span>
+  <span class='kw'>def</span> <span class='id identifier rubyid_call'>call</span>
+    <span class='id identifier rubyid_do_smth'>do_smth</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_private'>private</span>
+
+  <span class='kw'>def</span> <span class='id identifier rubyid_well'>well</span> <span class='comment'># ❌ Offense: Define #well after its caller #do_smth
+</span>    <span class='int'>123</span>
+  <span class='kw'>end</span>
+
+  <span class='kw'>def</span> <span class='id identifier rubyid_do_smth'>do_smth</span>
+    <span class='id identifier rubyid_well'>well</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<h3 id="label-Autocorrection">Autocorrection</h3>
+
+<p>Run with unsafe autocorrection to automatically fix violations:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_bundle'>bundle</span> <span class='id identifier rubyid_exec'>exec</span> <span class='id identifier rubyid_rubocop'>rubocop</span> <span class='op'>-</span><span class='const'>A</span>
+</code></pre>
+
+<p>This will reorder the methods while preserving comments and visibility modifiers:</p>
+
+<pre class="code ruby"><code class="ruby">
+<span class='kw'>class</span> <span class='const'>Service</span>
+  <span class='kw'>def</span> <span class='id identifier rubyid_call'>call</span>
+    <span class='id identifier rubyid_do_smth'>do_smth</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_private'>private</span>
+
+  <span class='kw'>def</span> <span class='id identifier rubyid_do_smth'>do_smth</span>
+    <span class='id identifier rubyid_well'>well</span>
+  <span class='kw'>end</span>
+
+  <span class='kw'>def</span> <span class='id identifier rubyid_well'>well</span>
+    <span class='int'>123</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<h2 id="label-Testing">Testing</h2>
+
+<p>Run the test suite:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_bundle'>bundle</span> <span class='id identifier rubyid_exec'>exec</span> <span class='id identifier rubyid_rspec'>rspec</span>
+</code></pre>
+
+<p>Run RuboCop on the gem itself:</p>
+
+<pre class="code ruby"><code class="ruby">bundle exec rubocop
+bundle exec rubocop --config .rubocop.test.yml lib/ -A
+</code></pre>
+
+<h2 id="label-Development">Development</h2>
+
+<p>After checking out the repo, run:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_bin'>bin</span><span class='op'>/</span><span class='id identifier rubyid_setup'>setup</span>
+</code></pre>
+
+<p>This will install dependencies and start an interactive console.</p>
+
+<h3 id="label-Available+Commands">Available Commands</h3>
+<ul><li>
+<p><code>bin/console</code> - Interactive development console</p>
+</li><li>
+<p><code>bin/setup</code> - Install dependencies and build gem</p>
+</li><li>
+<p><code>bundle exec rake</code> - Run tests and linting</p>
+</li></ul>
+
+<h3 id="label-Release+Process">Release Process</h3>
+<ol><li>
+<p>Update version in <code>lib/rubocop/sorted_methods_by_call/version.rb</code></p>
+</li><li>
+<p>Create and push a git tag: <code>git tag v0.1.0 &amp;&amp; git push origin v0.1.0</code></p>
+</li><li>
+<p>GitHub Actions will automatically:</p>
+<ul><li>
+<p>Build the gem</p>
+</li><li>
+<p>Publish to RubyGems.org</p>
+</li><li>
+<p>Create a GitHub release</p>
+</li></ul>
+</li></ol>
+
+<h2 id="label-Requirements">Requirements</h2>
+<ul><li>
+<p><strong>Ruby</strong>: &gt;= 2.7</p>
+</li><li>
+<p><strong>RuboCop</strong>: &gt;= 1.72.0 (required for plugin system)</p>
+</li></ul>
+
+<h2 id="label-Contributing">Contributing</h2>
+
+<p>Bug reports and pull requests are welcome! Please follow these guidelines:</p>
+<ol><li>
+<p>Fork the repository</p>
+</li><li>
+<p>Create your feature branch (<code>git checkout -b feature/amazing-feature</code>)</p>
+</li><li>
+<p>Commit your changes (<code>git commit -am &#39;Add amazing feature&#39;</code>)</p>
+</li><li>
+<p>Push to the branch (<code>git push origin feature/amazing-feature</code>)</p>
+</li><li>
+<p>Open a pull request</p>
+</li></ol>
+
+<p>Please ensure your code passes all tests and follows the existing style.</p>
+
+<h2 id="label-License">License</h2>
+
+<p>The gem is available as open source under the terms of the <a href="https://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause License</a>.</p>
+
+<h2 id="label-Code+of+Conduct">Code of Conduct</h2>
+
+<p>Everyone interacting with this project is expected to follow the <a href="CODE_OF_CONDUCT_md.html">Code of Conduct</a>.</p>
+<hr>
+
+<blockquote>
+<p><strong>Note</strong>: This gem is now stable and ready for production use! The “waterfall” ordering pattern helps create more readable code by ensuring that methods are defined in the order they’re conceptually needed.</p>
+</blockquote>
+</div></div>
+
+      <div id="footer">
+  Generated on Thu Nov  6 01:28:39 2025 by
+  <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.28 (ruby-3.4.7).
+</div>
+
+    </div>
+  </body>
+</html>
