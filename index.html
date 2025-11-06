@@ -61,6 +61,8 @@
 <h1 id="label-RuboCop-3A-3ASortedMethodsByCall">RuboCop::SortedMethodsByCall</h1>
 
 <p><img src="https://repobeats.axiom.co/api/embed/7926fec94bffd7fcaa69700fb9464ed96cf69083.svg" alt="Repobeats"> <a href="https://github.com/unurgunite/rubocop-sorted_methods_by_call/actions"><img src="https://github.com/unurgunite/rubocop-sorted_methods_by_call/actions/workflows/ci.yml/badge.svg" alt="CI"></a> <a href="https://rubygems.org/gems/rubocop-sorted_methods_by_call"><img src="https://badge.fury.io/rb/rubocop-sorted_methods_by_call.svg" alt="Gem Version"></a></p>
+
+<p><strong>Enforces “waterfall” method ordering</strong>: define methods <em>after</em> any method that calls them within the same scope.</p>
 <ul><li>
 <p><a href="#rubocopsortedmethodsbycall">RuboCop::SortedMethodsByCall</a></p>
 <ul><li>
@@ -97,29 +99,25 @@
 </li><li>
 <p><a href="#contributing">Contributing</a></p>
 </li><li>
-<p><a href="#documentation">Documentation</a></p>
-</li><li>
 <p><a href="#license">License</a></p>
 </li><li>
 <p><a href="#code-of-conduct">Code of Conduct</a></p>
 </li></ul>
 </li></ul>
 
-<p><strong>Enforces “waterfall” method ordering</strong>: define methods <em>after</em> any method that calls them within the same scope.</p>
-
 <h2 id="label-Features">Features</h2>
 <ul><li>
-<p><strong>Waterfall ordering enforcement</strong>: Caller methods must be defined before their callees</p>
+<p><strong>Waterfall ordering enforcement</strong>: Caller methods must be defined before their callees;</p>
 </li><li>
-<p><strong>Smart visibility handling</strong>: Respects <code>private</code>/<code>protected</code>/<code>public</code> sections</p>
+<p><strong>Smart visibility handling</strong>: Respects <code>private</code>/<code>protected</code>/<code>public</code> sections;</p>
 </li><li>
-<p><strong>Safe mutual recursion</strong>: Handles recursive method calls gracefully</p>
+<p><strong>Safe mutual recursion</strong>: Handles recursive method calls gracefully;</p>
 </li><li>
-<p><strong>Autocorrection support</strong>: Automatically reorders methods (opt-in with <code>-A</code>)</p>
+<p><strong>Autocorrection support</strong>: Automatically reorders methods (opt-in with <code>-A</code>);</p>
 </li><li>
-<p><strong>Full RuboCop integration</strong>: Works seamlessly with modern RuboCop plugin system</p>
+<p><strong>Full RuboCop integration</strong>: Works seamlessly with modern RuboCop plugin system;</p>
 </li><li>
-<p><strong>Comprehensive scope support</strong>: Classes, modules, singleton classes, and top-level</p>
+<p><strong>Comprehensive scope support</strong>: Classes, modules, singleton classes, and top-level;</p>
 </li></ul>
 
 <h2 id="label-Installation">Installation</h2>
@@ -164,18 +162,26 @@ SortedMethodsByCall/Waterfall:
 
 <h3 id="label-Good+Code+-28waterfall+order-29">Good Code (waterfall order)</h3>
 
-<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'>Service</span>
+<p>In waterfall ordering, <strong>callers come before callees</strong>. This creates a top-down reading flow where main logic appears before implementation details.</p>
+
+<pre class="code ruby"><code class="ruby">
+<span class='kw'>class</span> <span class='const'>Service</span>
   <span class='kw'>def</span> <span class='id identifier rubyid_call'>call</span>
-    <span class='id identifier rubyid_do_smth'>do_smth</span>
+    <span class='id identifier rubyid_foo'>foo</span>
+    <span class='id identifier rubyid_bar'>bar</span>
   <span class='kw'>end</span>
 
   <span class='id identifier rubyid_private'>private</span>
 
-  <span class='kw'>def</span> <span class='id identifier rubyid_do_smth'>do_smth</span>
-    <span class='id identifier rubyid_well'>well</span>
+  <span class='kw'>def</span> <span class='id identifier rubyid_bar'>bar</span>
+    <span class='id identifier rubyid_method123'>method123</span>
   <span class='kw'>end</span>
 
-  <span class='kw'>def</span> <span class='id identifier rubyid_well'>well</span>
+  <span class='kw'>def</span> <span class='id identifier rubyid_method123'>method123</span>
+    <span class='id identifier rubyid_foo'>foo</span>
+  <span class='kw'>end</span>
+
+  <span class='kw'>def</span> <span class='id identifier rubyid_foo'>foo</span>
     <span class='int'>123</span>
   <span class='kw'>end</span>
 <span class='kw'>end</span>
@@ -183,19 +189,25 @@ SortedMethodsByCall/Waterfall:
 
 <h3 id="label-Bad+Code+-28violates+waterfall+order-29">Bad Code (violates waterfall order)</h3>
 
-<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'>Service</span>
+<pre class="code ruby"><code class="ruby">
+<span class='kw'>class</span> <span class='const'>Service</span>
   <span class='kw'>def</span> <span class='id identifier rubyid_call'>call</span>
-    <span class='id identifier rubyid_do_smth'>do_smth</span>
+    <span class='id identifier rubyid_foo'>foo</span>
+    <span class='id identifier rubyid_bar'>bar</span>
   <span class='kw'>end</span>
 
   <span class='id identifier rubyid_private'>private</span>
 
-  <span class='kw'>def</span> <span class='id identifier rubyid_well'>well</span> <span class='comment'># ❌ Offense: Define #well after its caller #do_smth
+  <span class='kw'>def</span> <span class='id identifier rubyid_foo'>foo</span> <span class='comment'># ❌ Offense: Define #foo after its caller #method123
 </span>    <span class='int'>123</span>
   <span class='kw'>end</span>
 
-  <span class='kw'>def</span> <span class='id identifier rubyid_do_smth'>do_smth</span>
-    <span class='id identifier rubyid_well'>well</span>
+  <span class='kw'>def</span> <span class='id identifier rubyid_bar'>bar</span>
+    <span class='id identifier rubyid_method123'>method123</span>
+  <span class='kw'>end</span>
+
+  <span class='kw'>def</span> <span class='id identifier rubyid_method123'>method123</span>
+    <span class='id identifier rubyid_foo'>foo</span>
   <span class='kw'>end</span>
 <span class='kw'>end</span>
 </code></pre>
@@ -207,24 +219,7 @@ SortedMethodsByCall/Waterfall:
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_bundle'>bundle</span> <span class='id identifier rubyid_exec'>exec</span> <span class='id identifier rubyid_rubocop'>rubocop</span> <span class='op'>-</span><span class='const'>A</span>
 </code></pre>
 
-<p>This will reorder the methods while preserving comments and visibility modifiers:</p>
-
-<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'>Service</span>
-  <span class='kw'>def</span> <span class='id identifier rubyid_call'>call</span>
-    <span class='id identifier rubyid_do_smth'>do_smth</span>
-  <span class='kw'>end</span>
-
-  <span class='id identifier rubyid_private'>private</span>
-
-  <span class='kw'>def</span> <span class='id identifier rubyid_do_smth'>do_smth</span>
-    <span class='id identifier rubyid_well'>well</span>
-  <span class='kw'>end</span>
-
-  <span class='kw'>def</span> <span class='id identifier rubyid_well'>well</span>
-    <span class='int'>123</span>
-  <span class='kw'>end</span>
-<span class='kw'>end</span>
-</code></pre>
+<p>This will reorder the methods while preserving comments and visibility modifiers.</p>
 
 <h2 id="label-Testing">Testing</h2>
 
@@ -236,7 +231,7 @@ SortedMethodsByCall/Waterfall:
 <p>Run RuboCop on the gem itself:</p>
 
 <pre class="code ruby"><code class="ruby">bundle exec rubocop
-bundle exec rubocop --config .rubocop.test.yml lib/ -A
+bundle exec rubocop --config test_project/.rubocop.test.yml lib/ -A
 </code></pre>
 
 <h2 id="label-Development">Development</h2>
@@ -297,13 +292,9 @@ bundle exec rubocop --config .rubocop.test.yml lib/ -A
 
 <p>Please ensure your code passes all tests and follows the existing style.</p>
 
-<h2 id="label-Documentation">Documentation</h2>
-
-<p>Code is covered with YARD docs, you can access online docs at <a href="https://unurgunite.github.io/rubocop-sorted_methods_by_call_docs">unurgunite.github.io/rubocop-sorted_methods_by_call_docs</a>/</p>
-
 <h2 id="label-License">License</h2>
 
-<p>The gem is available as open source under the terms of the <a href="https://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause License</a>.</p>
+<p>The gem is available as open source under the terms of MIT License.</p>
 
 <h2 id="label-Code+of+Conduct">Code of Conduct</h2>
 
@@ -311,12 +302,12 @@ bundle exec rubocop --config .rubocop.test.yml lib/ -A
 <hr>
 
 <blockquote>
-<p><strong>Note</strong>: This gem is now stable and ready for production use! The “waterfall” ordering pattern helps create more readable code by ensuring that methods are defined in the order they’re conceptually needed.</p>
+<p><strong>Note</strong>: This gem implements <strong>true waterfall ordering</strong> that considers the complete call graph across all methods in a scope. Methods are ordered so that every callee appears after all of its callers, creating a natural top-down reading flow.</p>
 </blockquote>
 </div></div>
 
       <div id="footer">
-  Generated on Thu Nov  6 01:45:14 2025 by
+  Generated on Thu Nov  6 17:56:26 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.28 (ruby-3.4.7).
 </div>

@@ -125,23 +125,34 @@
 
 <p>Example (good):</p>
 
-<pre class="code ruby"><code class="ruby"><span class='kw'>def</span> <span class='id identifier rubyid_foo'>foo</span>
+<pre class="code ruby"><code class="ruby"><span class='kw'>def</span> <span class='id identifier rubyid_call'>call</span>
+  <span class='id identifier rubyid_foo'>foo</span>
   <span class='id identifier rubyid_bar'>bar</span>
 <span class='kw'>end</span>
 
+<span class='id identifier rubyid_private'>private</span>
+
 <span class='kw'>def</span> <span class='id identifier rubyid_bar'>bar</span>
+  <span class='id identifier rubyid_method123'>method123</span>
+<span class='kw'>end</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_method123'>method123</span>
+  <span class='id identifier rubyid_foo'>foo</span>
+<span class='kw'>end</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_foo'>foo</span>
   <span class='int'>123</span>
 <span class='kw'>end</span>
 </code></pre>
 
 <p>Example (bad):</p>
 
-<pre class="code ruby"><code class="ruby"><span class='kw'>def</span> <span class='id identifier rubyid_bar'>bar</span>
+<pre class="code ruby"><code class="ruby"><span class='kw'>def</span> <span class='id identifier rubyid_foo'>foo</span>
   <span class='int'>123</span>
 <span class='kw'>end</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_foo'>foo</span>
-  <span class='id identifier rubyid_bar'>bar</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_call'>call</span>
+  <span class='id identifier rubyid_foo'>foo</span>
 <span class='kw'>end</span>
 </code></pre>
 
@@ -348,12 +359,12 @@
       <pre class="lines">
 
 
-49
-50
-51</pre>
+60
+61
+62</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rubocop/cop/sorted_methods_by_call/waterfall.rb', line 49</span>
+      <pre class="code"><span class="info file"># File 'lib/rubocop/cop/sorted_methods_by_call/waterfall.rb', line 60</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_on_begin'>on_begin</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_analyze_scope'>analyze_scope</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='rparen'>)</span>
@@ -406,12 +417,12 @@
       <pre class="lines">
 
 
-59
-60
-61</pre>
+70
+71
+72</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rubocop/cop/sorted_methods_by_call/waterfall.rb', line 59</span>
+      <pre class="code"><span class="info file"># File 'lib/rubocop/cop/sorted_methods_by_call/waterfall.rb', line 70</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_on_class'>on_class</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_analyze_scope'>analyze_scope</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='rparen'>)</span>
@@ -464,12 +475,12 @@
       <pre class="lines">
 
 
-69
-70
-71</pre>
+80
+81
+82</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rubocop/cop/sorted_methods_by_call/waterfall.rb', line 69</span>
+      <pre class="code"><span class="info file"># File 'lib/rubocop/cop/sorted_methods_by_call/waterfall.rb', line 80</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_on_module'>on_module</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_analyze_scope'>analyze_scope</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='rparen'>)</span>
@@ -522,12 +533,12 @@
       <pre class="lines">
 
 
-79
-80
-81</pre>
+90
+91
+92</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rubocop/cop/sorted_methods_by_call/waterfall.rb', line 79</span>
+      <pre class="code"><span class="info file"># File 'lib/rubocop/cop/sorted_methods_by_call/waterfall.rb', line 90</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_on_sclass'>on_sclass</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_analyze_scope'>analyze_scope</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='rparen'>)</span>
@@ -542,7 +553,7 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Nov  6 01:45:14 2025 by
+  Generated on Thu Nov  6 17:56:26 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.28 (ruby-3.4.7).
 </div>
