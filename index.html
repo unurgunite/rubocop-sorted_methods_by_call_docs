@@ -83,6 +83,8 @@
 </li><li>
 <p><a href="#bad-code-violates-waterfall-order">Bad Code (violates waterfall order)</a></p>
 </li><li>
+<p><a href="#sibling-ordering-and-cycles-why-autocorrect-can-be-skipped">Sibling ordering and cycles (why autocorrect can be skipped)</a></p>
+</li><li>
 <p><a href="#autocorrection">Autocorrection</a></p>
 </li></ul>
 </li><li>
@@ -158,6 +160,12 @@ SortedMethodsByCall/Waterfall:
   Enabled: true
   SafeAutoCorrect: false          # Autocorrection requires -A flag
   AllowedRecursion: true          # Allow mutual recursion (default: true)
+  # If true, the cop will NOT add &quot;called together&quot; sibling-order edges
+  # that would introduce a cycle with existing constraints. This reduces
+  # impossible-to-fix sibling offenses and makes autocorrect more reliable.
+  #
+  # Default: false
+  SkipCyclicSiblingEdges: false
 </code></pre>
 
 <h2 id="label-Usage+Examples">Usage Examples</h2>
@@ -213,6 +221,43 @@ SortedMethodsByCall/Waterfall:
   <span class='kw'>end</span>
 <span class='kw'>end</span>
 </code></pre>
+
+<h3 id="label-Sibling+ordering+and+cycles+-28why+autocorrect+can+be+skipped-29">Sibling ordering and cycles (why autocorrect can be skipped)</h3>
+
+<p><code>SortedMethodsByCall/Waterfall</code> enforces two kinds of ordering constraints:</p>
+<ol><li>
+<p><strong>Direct call edges</strong>: if <code>caller</code> calls <code>callee</code>, then <code>caller</code> must be defined <strong>before</strong> <code>callee</code>.</p>
+</li><li>
+<p><strong>Sibling (“called together”) edges</strong>: in orchestration methods (methods not called by others in the same scope), consecutive calls imply an intended order (e.g., <code>a</code> then <code>b</code>), so <code>a</code> should be defined before <code>b</code>.</p>
+</li></ol>
+
+<p>Sometimes these constraints can conflict and create a <strong>cycle</strong>, which means there is no valid ordering that satisfies all constraints. In this situation, autocorrect may be skipped.</p>
+
+<p>Example:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'>SiblingCycleExample</span>
+  <span class='kw'>def</span> <span class='id identifier rubyid_call'>call</span>
+    <span class='id identifier rubyid_a'>a</span>
+    <span class='id identifier rubyid_b'>b</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_private'>private</span>
+
+  <span class='kw'>def</span> <span class='id identifier rubyid_b'>b</span>
+    <span class='id identifier rubyid_c'>c</span>
+  <span class='kw'>end</span>
+
+  <span class='kw'>def</span> <span class='id identifier rubyid_c'>c</span>
+    <span class='id identifier rubyid_a'>a</span>
+  <span class='kw'>end</span>
+
+  <span class='kw'>def</span> <span class='id identifier rubyid_a'>a</span><span class='semicolon'>;</span> <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<p>Here, the direct dependencies imply <code>b -&gt; c -&gt; a</code>, but the orchestration method implies <code>a -&gt; b</code>, which forms the cycle <code>a -&gt; b -&gt; c -&gt; a</code>.</p>
+
+<p>If you prefer to keep the warning (to encourage refactoring), leave <code>SkipCyclicSiblingEdges: false</code>. If you prefer the cop to avoid enforcing sibling edges that create cycles, set <code>SkipCyclicSiblingEdges: true</code>.</p>
 
 <h3 id="label-Autocorrection">Autocorrection</h3>
 
@@ -313,7 +358,7 @@ bundle exec rubocop --config test_project/.rubocop.test.yml lib/ -A
 </div></div>
 
       <div id="footer">
-  Generated on Thu Nov  6 21:19:02 2025 by
+  Generated on Tue Jan 13 14:53:42 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.28 (ruby-3.4.7).
 </div>
